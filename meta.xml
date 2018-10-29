@@ -1,0 +1,13 @@
+<meta>
+   <info author="___.Flash" name="Local Chat" description="Local Chat System" type="script" version="0.1"/>
+
+   <oop>true</oop>
+
+   <script src="serverSide.lua"/>
+   <settings>
+      <setting name="*localChatInterval" value="[2000]"/>
+      <setting name="*localChatCommand" value="local"/>
+      <setting name="*localChatKey" value="l"/>
+      <setting name="*distanceChat" value="[100]"/>
+   </settings>
+</meta>
