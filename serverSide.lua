@@ -31,7 +31,7 @@ local function localChat(responsiblePlayer, _, ...)
          antiAbuse[responsiblePlayer] = getTickCount();
          outputChatBox("[Local chat]: Not flood!", responsiblePlayer, 255, 170, 0);
      else
-        antiAbuse[responsiblePlayer] = getTickCount();
+         antiAbuse[responsiblePlayer] = getTickCount();
          local localMessage = table.concat({...}, "\t"):removeHexCode();
          outputDebugString( ("[Local chat] %s: %s"):format(responsiblePlayer.name:removeHexCode(), localMessage), 3, 255, 170, 0);
          local localPlayers = getElementsWithinRange(responsiblePlayer.position, distanceChat, "player");
