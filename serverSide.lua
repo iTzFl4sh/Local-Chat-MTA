@@ -23,22 +23,27 @@ function string:removeHexCode()
 end;
 
 local function localChat(responsiblePlayer, _, ...)
-   if isPlayerMuted(responsiblePlayer) ~= false then
-      return outputChatBox("[Local chat]: You are muted!", responsiblePlayer, 255, 170, 0);
-   end
-   if antiAbuse[responsiblePlayer] ~= nil and getTickCount()-antiAbuse[responsiblePlayer] <= localChatInterval then
-      antiAbuse[responsiblePlayer] = getTickCount();
-      return outputChatBox("[Local chat]: Not flood!", responsiblePlayer, 255, 170, 0);
-   end
-   antiAbuse[responsiblePlayer] = getTickCount();
-   local localMessage = table.concat({...}, "\t"):removeHexCode();
-   outputDebugString( ("[Local chat] %s: %s"):format(responsiblePlayer.name:removeHexCode(), localMessage), 3, 255, 170, 0);
-   local localPlayers = getElementsWithinRange(responsiblePlayer.position, distanceChat, "player");
-   local i = 0;
-   repeat
-         i = i + 1;
-         outputChatBox( ("[Local chat] %s: %s"):format(responsiblePlayer.name:removeHexCode(), localMessage), localPlayers[i], 255, 255, 255);
-   until i == #localPlayers;
+   if not responsiblePlayer.account.guest then
+      if isPlayerMuted(responsiblePlayer) ~= false then
+         return outputChatBox("[Local chat]: You are muted!", responsiblePlayer, 255, 170, 0);
+      end;
+      if antiAbuse[responsiblePlayer] ~= nil and getTickCount()-antiAbuse[responsiblePlayer] <= localChatInterval then
+         antiAbuse[responsiblePlayer] = getTickCount();
+         outputChatBox("[Local chat]: Not flood!", responsiblePlayer, 255, 170, 0);
+     else
+        antiAbuse[responsiblePlayer] = getTickCount();
+         local localMessage = table.concat({...}, "\t"):removeHexCode();
+         outputDebugString( ("[Local chat] %s: %s"):format(responsiblePlayer.name:removeHexCode(), localMessage), 3, 255, 170, 0);
+         local localPlayers = getElementsWithinRange(responsiblePlayer.position, distanceChat, "player");
+         local i = 0;
+         repeat
+               i = i + 1;
+               outputChatBox( ("[Local chat] %s: %s"):format(responsiblePlayer.name:removeHexCode(), localMessage), localPlayers[i], 255, 255, 255);
+         until i == #localPlayers;
+      end;
+  else
+      outputChatBox("[Local chat]: You are not logged in!", responsiblePlayer, 255, 170, 0);
+   end;
 end;
 
 local function onPlayerJoin()
