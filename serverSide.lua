@@ -18,9 +18,9 @@ function string:removeHexCode()
    local s = self:gsub("#%x%x%x%x%x%x", "");
    if #s < 1 then
       return self;
-   end;
+   end
    return s;
-end;
+end
 
 local function localChat(responsiblePlayer, _, ...)
    if not responsiblePlayer.account.guest then
@@ -40,11 +40,11 @@ local function localChat(responsiblePlayer, _, ...)
                i = i + 1;
                outputChatBox( ("[Local chat] %s: %s"):format(responsiblePlayer.name:removeHexCode(), localMessage), localPlayers[i], 255, 255, 255);
          until i == #localPlayers;
-      end;
+      end
   else
       outputChatBox("[Local chat]: You are not logged in!", responsiblePlayer, 255, 170, 0);
-   end;
-end;
+   end
+end
 
 local function onPlayerJoin()
    bindKey(source, localChatKey, "down", "chatbox", localChatCommand);
@@ -52,25 +52,20 @@ end
 
 local function onPlayerQuit()
    antiAbuse[source] = nil;
-end;
+end
 
 local function onPlayerMuted()
    antiAbuse[source] = nil;
-end;
+end
 
 local function onResourceStart()
    addCommandHandler(localChatCommand, localChat);
    local allPlayers = getElementsByType("player");
-   local i = 0;
-   while true do
-      i = i + 1;
+   for i = 1, #allPlayers do
       bindKey(allPlayers[i], localChatKey, "down", "chatbox", localChatCommand);
-      if i == #allPlayers then
-         break;
-      end;
-   end;
+   end
    addEventHandler("onPlayerJoin", getRootElement(), onPlayerJoin);
    addEventHandler("onPlayerQuit", getRootElement(), onPlayerQuit);
    addEventHandler("onPlayerMuted", getRootElement(), onPlayerMuted);
-end;
+end
 addEventHandler("onResourceStart", resourceRoot, onResourceStart);
